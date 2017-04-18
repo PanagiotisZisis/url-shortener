@@ -13,7 +13,7 @@ app.get('/new/:original(*)', function(req, res) {
     var url = req.params.original;
     var regex = /((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=\+\$,\w]+@)?[A-Za-z0-9.-]+|(?:www.|[-;:&=\+\$,\w]+@)[A-Za-z0-9.-]+)((?:\/[\+~%\/.\w-_]*)?\??(?:[-\+=&;%@.\w_]*)#?(?:[\w]*))?)/;
     if (regex.test(url)) {
-        mongo.connect(MONGOLAB_URI, function(err, db) {
+        mongo.connect(process.env.MONGOLAB_URI, function(err, db) {
             if (err) {
                 res.send('There was an error connecting to the database - please try again.');
             }
@@ -43,7 +43,7 @@ app.get('/new/:original(*)', function(req, res) {
 
 app.get('/:short', function(req, res) {
     var short = req.params.short;
-    mongo.connect(MONGOLAB_URI, function(err, db) {
+    mongo.connect(process.env.MONGOLAB_URI, function(err, db) {
         var shortUrls = db.collection('shorturls');
         shortUrls.find({short: short}).toArray(function(err, result) {
             if (err) {
